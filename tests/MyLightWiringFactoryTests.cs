@@ -40,8 +40,8 @@ namespace tests
             var factory = new MyLightWiringFactory(serviceProvider.Object);
 
 
-            //act
-            var actual = factory.Create();
+            //act<
+            var actual = factory.Create<MyTimerLightWiring>();
 
             var isIt = actual as MyTimerLightWiring;
             //assert

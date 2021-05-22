@@ -3,25 +3,25 @@ using Microsoft.Extensions.Logging;
 
 namespace switcher
 {
+
     public class Switcher
     {
         SwitcherProviderOptions _switcherProvider;
-
         ILogger<Switcher> _logger;
 
-        public SwitcherProviderOptions SwitchingProvider=>_switcherProvider;
+        public SwitcherProviderOptions SwitchingProvider => _switcherProvider;
 
         public Switcher(
             ILogger<Switcher> logger,
             SwitcherProviderOptions options)
         {
-        
+
             _logger = logger;
             _switcherProvider = options;
         }
 
         public static bool ShouldBeOn(
-            Func< bool> shouldBeOnProvider
+            Func<bool> shouldBeOnProvider
            )
         {
             return shouldBeOnProvider();
@@ -33,7 +33,7 @@ namespace switcher
                 _switcherProvider.ShouldBeOnProvider);
         }
 
-        public void Switch()
+        public void SwitchIfNeeded()
         {
             SwitchingDecider.Switch(
                 ShouldBeOn,

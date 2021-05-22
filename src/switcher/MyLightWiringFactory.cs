@@ -11,9 +11,9 @@ namespace switcher
         {
             _sp = sp;
         }
-        public MyTimerLightWiring Create()
+        public T Create<T>() where T: IWiring
         {
-            return ActivatorUtilities.CreateInstance<MyTimerLightWiring>(_sp);
+            return ActivatorUtilities.CreateInstance<T>(_sp);
         }
 
     }

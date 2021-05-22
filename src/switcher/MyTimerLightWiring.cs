@@ -4,7 +4,7 @@ using System;
 namespace switcher
 {
 
-    public class MyTimerLightWiring
+    public class MyTimerLightWiring:IWiring
     {
         MyLight _light;
         Switcher _switcher;

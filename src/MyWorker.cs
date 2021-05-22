@@ -8,39 +8,40 @@ namespace switcher
 {
     public class MyWorker : BackgroundService
     {
-        List<Switcher> switchers = new List<Switcher>();
+        private readonly Switchers _switchers;
+        private readonly MyLightWiringFactory _factory;
 
-        MyLightWiringFactory _factory;
         public MyWorker(MyLightWiringFactory factory)
         {
+            _switchers = new Switchers();
             _factory = factory;
-        }
-     
-        public void Work()
-        {
-            var x = _factory.Create();
-            x.Enable();
-            switchers.Add(x.Switcher);
-
         }
 
         public override Task StartAsync(CancellationToken cancellationToken)
         {
-            Work();
+            SetupRequiredLights();
             return base.StartAsync(cancellationToken);
+        }
+
+        private void SetupRequiredLights()
+        {
+            var x = _factory.Create<MyTimerLightWiring>();
+            _switchers.Add(x.Switcher);
+            x.Enable();
         }
 
         protected async override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            while(!stoppingToken.IsCancellationRequested)
+            while (!stoppingToken.IsCancellationRequested)
             {
-                foreach(var sw in switchers)
-                {
-                    sw.Switch();
-                    await Task.Yield();
-                }
-                await Task.Delay(TimeSpan.FromSeconds(1),stoppingToken);
+                await ExecuteIterationAsync(stoppingToken);
             }
+        }
+
+        private async Task ExecuteIterationAsync(CancellationToken stoppingToken)
+        {
+            await _switchers.SwitchIfNeededAsync(stoppingToken);
+            await Task.Delay(TimeSpan.FromSeconds(1), stoppingToken);
         }
     }
 }
