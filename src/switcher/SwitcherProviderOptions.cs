@@ -2,7 +2,6 @@ using System;
 
 namespace switcher
 {
-
     public class SwitcherProviderOptions
     {
         public static Func< bool> DefaultShouldBeOnProvider =>()=>{return false;};
