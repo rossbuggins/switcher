@@ -10,8 +10,9 @@ namespace switcher
     {
         MyLight _light;
         Switcher _switcher;
-
         TimedSwitcherProvider _timerSwitch;
+
+        public TimedSwitcherProvider Timer => _timerSwitch;
 
         public Switcher Switcher => _switcher;
         public MyTimerLightWiring(

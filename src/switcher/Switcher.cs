@@ -20,28 +20,19 @@ namespace switcher
             _switcherProvider = options;
         }
 
-        public static bool ShouldBeOn(
-            Func<bool> shouldBeOnProvider
-           )
-        {
-            return shouldBeOnProvider();
-        }
-
         public bool ShouldBeOn()
         {
-            return Switcher.ShouldBeOn(
-                _switcherProvider.ShouldBeOnProvider);
+            return _switcherProvider.ShouldBeOnProvider();
         }
 
         public void SwitchIfNeeded()
         {
-            SwitchingDecider.Switch(
-                ShouldBeOn,
+            SwitchIfNeeded(
                 _switcherProvider.SwitchOnProvider,
                 _switcherProvider.SwitchOffProvider);
         }
 
-        public void Switch(Action turnOnProvider, Action turnOffProvider)
+        public void SwitchIfNeeded(Action turnOnProvider, Action turnOffProvider)
         {
             SwitchingDecider.Switch(ShouldBeOn, turnOnProvider, turnOffProvider);
         }

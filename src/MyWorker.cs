@@ -26,6 +26,7 @@ namespace switcher
         private void SetupRequiredLights()
         {
             var x = _factory.Create<MyTimerLightWiring>();
+            x.Timer.AddOnTime(new TimeSpanRange(TimeSpan.Zero, new TimeSpan(23,59,59)));
             _switchers.Add(x.Switcher);
             x.Enable();
         }
