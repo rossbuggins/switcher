@@ -67,6 +67,7 @@ namespace tests
             Assert.Equal(expected, actual);
         }
 
+        [Fact]
         public void CreateFromStartDuration_EndCorrect()
         {
             //arrange

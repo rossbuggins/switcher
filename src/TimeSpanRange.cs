@@ -8,6 +8,7 @@ namespace switcher
         public TimeSpan Start {get;init;}
         public TimeSpan End {get;init;}
         public TimeSpan Duration {get;init;}
+        
 
         public TimeSpanRange(TimeSpan start, TimeSpan end)
         {
