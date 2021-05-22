@@ -1,10 +1,26 @@
 using System;
+using System.Collections.Generic;
 
 namespace switcher
 {
 
     public struct TimeSpanRange
     {
+        public static bool InRange(TimeSpan time, IEnumerable<TimeSpanRange> ranges)
+        {
+            foreach (var on in ranges)
+            {
+                if(InRange(time, on))
+                    return true;
+            }
+            return false;
+        }
+
+        public static bool InRange(TimeSpan time, TimeSpanRange range)
+        {
+            return time >= range.Start && time < range.End;
+        }
+
         public TimeSpan Start {get;init;}
         public TimeSpan End {get;init;}
         public TimeSpan Duration {get;init;}

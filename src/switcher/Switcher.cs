@@ -3,7 +3,6 @@ using Microsoft.Extensions.Logging;
 
 namespace switcher
 {
-
     public class Switcher
     {
         SwitcherProviderOptions _switcherProvider;
@@ -15,7 +14,6 @@ namespace switcher
             ILogger<Switcher> logger,
             SwitcherProviderOptions options)
         {
-
             _logger = logger;
             _switcherProvider = options;
         }
@@ -36,6 +34,5 @@ namespace switcher
         {
             SwitchingDecider.Switch(ShouldBeOn, turnOnProvider, turnOffProvider);
         }
-
     }
 }

@@ -25,12 +25,17 @@ namespace switcher
             var switchers = _switchers;
             foreach (var sw in switchers)
             {
-                if (ct.IsCancellationRequested)
-                    break;
-
-                sw.SwitchIfNeeded();
-                await Task.Yield();
+                await SwitchIfNeededInnerLoopAsync(sw, ct);
             }
+        }
+
+        private async Task SwitchIfNeededInnerLoopAsync(Switcher switcher, CancellationToken ct)
+        {
+            if (ct.IsCancellationRequested)
+                throw new TaskCanceledException();
+
+            switcher.SwitchIfNeeded();
+            await Task.Yield();
         }
 
         public IEnumerator<Switcher> GetEnumerator()

@@ -5,10 +5,23 @@ namespace switcher
 {
     public class TimedSwitcherProvider
     {
+        public static Func<IDateTimeProvider, IEnumerable<TimeSpanRange>, bool> DefaultShouldBeOnProvider =
+        (dtp, turnOns) =>
+        {
+            var now = dtp.UtcNow().TimeOfDay;
+            return TimeSpanRange.InRange(now, turnOns);
+        };
+
+        private readonly IDateTimeProvider _timer;
         private ImmutableHashSet<TimeSpanRange> _onRanges;
         public IEnumerable<TimeSpanRange> OnTimes => _onRanges;
+        public Func<IDateTimeProvider, IEnumerable<TimeSpanRange>, bool> ShouldBeOnProvider { get; set; } = DefaultShouldBeOnProvider;
 
-        IDateTimeProvider _timer;
+        public TimedSwitcherProvider(IDateTimeProvider timer)
+        {
+            _onRanges = ImmutableHashSet<TimeSpanRange>.Empty;
+            _timer = timer;
+        }
 
         public IEnumerable<TimeSpanRange> AddOnTime(TimeSpanRange range)
         {
@@ -26,28 +39,9 @@ namespace switcher
             return rangesWithRangeAdded;
         }
 
-        public TimedSwitcherProvider(IDateTimeProvider timer)
-        {
-            _onRanges = ImmutableHashSet<TimeSpanRange>.Empty;
-            _timer = timer;
-        }
         public bool ShouldBeOn()
         {
             return ShouldBeOnProvider(_timer, OnTimes);
         }
-
-        public Func<IDateTimeProvider, IEnumerable<TimeSpanRange>, bool> ShouldBeOnProvider { get; set; } = DefaultShouldBeOnProvider;
-
-        public static Func<IDateTimeProvider, IEnumerable<TimeSpanRange>, bool> DefaultShouldBeOnProvider =
-        (dtp, turnOns) =>
-        {
-            var now = dtp.UtcNow().TimeOfDay;
-            foreach (var on in turnOns)
-            {
-                if (now >= on.Start && now < on.End)
-                    return true;
-            }
-            return false;
-        };
     }
 }
