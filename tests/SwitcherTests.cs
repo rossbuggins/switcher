@@ -1,6 +1,6 @@
-using System;
 using Xunit;
-using switcher;
+using Moq;
+using Microsoft.Extensions.Logging;
 
 namespace tests
 {

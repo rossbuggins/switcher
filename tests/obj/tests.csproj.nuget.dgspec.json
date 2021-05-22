@@ -4,14 +4,14 @@
     "/home/ross/source/switcher/tests/tests.csproj": {}
   },
   "projects": {
-    "/home/ross/source/switcher/tests/tests.csproj": {
+    "/home/ross/source/switcher/src/switcher.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/ross/source/switcher/tests/tests.csproj",
-        "projectName": "tests",
-        "projectPath": "/home/ross/source/switcher/tests/tests.csproj",
+        "projectUniqueName": "/home/ross/source/switcher/src/switcher.csproj",
+        "projectName": "switcher",
+        "projectPath": "/home/ross/source/switcher/src/switcher.csproj",
         "packagesPath": "/home/ross/.nuget/packages/",
-        "outputPath": "/home/ross/source/switcher/tests/obj/",
+        "outputPath": "/home/ross/source/switcher/src/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/ross/.nuget/NuGet/NuGet.Config"
@@ -38,9 +38,79 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "dependencies": {
+            "Microsoft.Extensions.Hosting": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/5.0.203/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/ross/source/switcher/tests/tests.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/ross/source/switcher/tests/tests.csproj",
+        "projectName": "tests",
+        "projectPath": "/home/ross/source/switcher/tests/tests.csproj",
+        "packagesPath": "/home/ross/.nuget/packages/",
+        "outputPath": "/home/ross/source/switcher/tests/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/ross/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0": {
+            "targetAlias": "net5.0",
+            "projectReferences": {
+              "/home/ross/source/switcher/src/switcher.csproj": {
+                "projectPath": "/home/ross/source/switcher/src/switcher.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "dependencies": {
+            "Microsoft.Extensions.Logging.Abstractions": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
             "Microsoft.NET.Test.Sdk": {
               "target": "Package",
               "version": "[16.7.1, )"
+            },
+            "Moq": {
+              "target": "Package",
+              "version": "[4.16.1, )"
             },
             "coverlet.collector": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",

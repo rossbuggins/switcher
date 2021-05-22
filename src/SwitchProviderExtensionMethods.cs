@@ -14,7 +14,7 @@ namespace switcher
             services.AddTransient<TimedSwitcherProvider>();
             services.AddTransient<MyLightWiringFactory>();
             services.AddTransient<MyLight>();
-            services.AddTransient<MyLightWiring>();
+            services.AddTransient<MyTimerLightWiring>();
             services.AddTransient<Switcher>(
                 (sp) =>
                 {

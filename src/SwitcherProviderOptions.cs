@@ -6,16 +6,13 @@ namespace switcher
     public class SwitcherProviderOptions
     {
         public static Func< bool> DefaultShouldBeOnProvider =>
-              () =>
-              {
-                  return false;
-              };
+            () =>{ return false;};
 
         public static Action DefaultSwitchOnProvider =>
-        () => { };
+            () => { };
 
         public static Action DefaultSwitchOffProvider =>
-       () => { };
+            () => { };
 
         public Func< bool> ShouldBeOnProvider {get;set;}
 

@@ -4,7 +4,7 @@ using System;
 namespace switcher
 {
 
-    public class MyLightWiring
+    public class MyTimerLightWiring
     {
         MyLight _light;
         Switcher _switcher;
@@ -12,7 +12,7 @@ namespace switcher
         TimedSwitcherProvider _timerSwitch;
 
         public Switcher Switcher => _switcher;
-        public MyLightWiring(
+        public MyTimerLightWiring(
             MyLight light, 
             Switcher switcher, 
             TimedSwitcherProvider timerSwitch)
@@ -26,8 +26,7 @@ namespace switcher
         {
             _switcher.SwitchingProvider.SwitchOnProvider = _light.On;
             _switcher.SwitchingProvider.SwitchOffProvider = _light.Off;
-            _switcher.SwitchingProvider.ShouldBeOnProvider = _timerSwitch.ShouldBeOn;
-           
+            _switcher.SwitchingProvider.ShouldBeOnProvider = _timerSwitch.ShouldBeOn;   
         }
     }
 
