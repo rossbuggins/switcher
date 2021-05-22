@@ -3,7 +3,9 @@ using System;
 
 namespace switcher
 {
-
+    // This class "links up" a timer source to a switch input and a light to the 
+    // switches output.
+    //
     public class MyTimerLightWiring:IWiring
     {
         MyLight _light;
