@@ -13,7 +13,7 @@ namespace switcher
 
         }
 
-        public MyLightBuilder Create()
+        public MyLightBuilder Start()
         {
             _options = new MyLightOptions();
             return this;

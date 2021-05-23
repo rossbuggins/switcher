@@ -46,15 +46,20 @@ namespace switcher
 
             var multi = _factory.Create<MultiSwitch>();
             multi.Switcher.CorrelationId = "Multi switch switcher";
-            var light1 =_lightBuilder.Create().Create().Build((o)=>
-            {
-                o.Colour = Color.Red;
-            });
+            var light1 =_lightBuilder.Create()
+                .Start()
+                .Color(Color.Yellow)
+                .Build((o)=>
+                {
+                    o.Colour = Color.Red;
+                });
 
-            var light2 = _lightBuilder.Create().Create().Build((o)=>
-            {
-                o.Colour = Color.Blue;
-            });
+            var light2 = _lightBuilder.Create()
+                .Start()
+                .Build((o)=>
+                {
+                    o.Colour = Color.Blue;
+                });
 
             multi.Lights.Add(light1);
             multi.Lights.Add(light2);
