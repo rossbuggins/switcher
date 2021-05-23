@@ -9,6 +9,8 @@ namespace switcher
             this IServiceCollection services,
             Action<SwitcherProviderOptions> options)
         {
+            services.AddTransient<MyLightBuilderFactory>();
+            services.AddTransient<MyLightBuilder>();
             services.AddTransient<TimedSwitcherProvider>();
             services.AddTransient<SwitchableFactory>();
             services.AddTransient<MyLightWiringFactory>();

@@ -15,12 +15,16 @@ namespace switcher
         private readonly MyLightWiringFactory _factory;
         private readonly SwitchableFactory _switchableFactory;
         private ILogger<MyWorker> _logger;
+
+        private readonly MyLightBuilderFactory _lightBuilder;
         public MyWorker(
             MyLightWiringFactory factory,
             SwitchableFactory switchableFactory,
-             ILogger<MyWorker> logger)
+             ILogger<MyWorker> logger,
+             MyLightBuilderFactory lightBuilder)
         {
             _switchers = new Switchers();
+            _lightBuilder = lightBuilder;
             _switchableFactory = switchableFactory;
             _factory = factory;
             _logger = logger;
@@ -42,10 +46,16 @@ namespace switcher
 
             var multi = _factory.Create<MultiSwitch>();
             multi.Switcher.CorrelationId = "Multi switch switcher";
-            var light1 = _switchableFactory.Create<MyLight>();
-            var light2 = _switchableFactory.Create<MyLight>();
-            light1.Color = Color.Red;
-            light2.Color = Color.Blue;
+            var light1 =_lightBuilder.Create().Create().Build((o)=>
+            {
+                o.Colour = Color.Red;
+            });
+
+            var light2 = _lightBuilder.Create().Create().Build((o)=>
+            {
+                o.Colour = Color.Blue;
+            });
+
             multi.Lights.Add(light1);
             multi.Lights.Add(light2);
             _switchers.Add(multi.Switcher);

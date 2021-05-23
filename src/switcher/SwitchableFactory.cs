@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace switcher
 {
+
     public class SwitchableFactory
     {
         private IServiceProvider _sp;
