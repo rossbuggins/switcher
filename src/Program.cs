@@ -22,6 +22,7 @@ namespace switcher
                     services.AddSwitchProvider(
                         (switchP) =>
                         {
+                            
                         });
                 }).RunConsoleAsync();
         }

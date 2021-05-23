@@ -5,9 +5,10 @@ namespace switcher
 {
     public class Switcher
     {
-        SwitcherProviderOptions _switcherProvider;
-        ILogger<Switcher> _logger;
-
+        public string CorrelationId{get;set;}
+        public Guid SwitcherId {get;} = Guid.NewGuid();
+        private readonly SwitcherProviderOptions _switcherProvider;
+        private readonly ILogger<Switcher> _logger;
         public SwitcherProviderOptions SwitchingProvider => _switcherProvider;
 
         public Switcher(
@@ -23,16 +24,34 @@ namespace switcher
             return _switcherProvider.ShouldBeOnProvider();
         }
 
-        public void SwitchIfNeeded()
+        public void SwitchOn()
         {
-            SwitchIfNeeded(
-                _switcherProvider.SwitchOnProvider,
-                _switcherProvider.SwitchOffProvider);
+             _switcherProvider.SwitchOnProvider();
         }
 
-        public void SwitchIfNeeded(Action turnOnProvider, Action turnOffProvider)
+        public void SwitchOff()
         {
-            SwitchingDecider.Switch(ShouldBeOn, turnOnProvider, turnOffProvider);
+            _switcherProvider.SwitchOffProvider();
+        }
+
+        public void SwitchIfNeeded()
+        {
+            SwitchIfNeeded(SwitchOn, SwitchOff);
+        }
+
+        public void SwitchIfNeeded(
+            Action turnOnProvider, 
+            Action turnOffProvider)
+        {
+            SwitchIfNeeded(ShouldBeOn, turnOnProvider, turnOffProvider);
+        }
+
+        public static void SwitchIfNeeded(
+            Func<bool> shouldBeOn, 
+            Action turnOnProvider, 
+            Action turnOffProvider)
+        {
+            SwitchingDecider.Switch(shouldBeOn, turnOnProvider, turnOffProvider);
         }
     }
 }

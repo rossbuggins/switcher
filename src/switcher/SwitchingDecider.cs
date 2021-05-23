@@ -4,7 +4,10 @@ namespace switcher
 {
     public class SwitchingDecider
     {
-        public static void Switch(Func<bool> shouldBeOnProvider, Action turnOnProvider, Action turnOffProvider)
+        public static void Switch(
+            Func<bool> shouldBeOnProvider, 
+            Action turnOnProvider, 
+            Action turnOffProvider)
         {
             if (shouldBeOnProvider())
             {

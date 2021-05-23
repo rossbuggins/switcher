@@ -9,15 +9,16 @@ namespace switcher
             this IServiceCollection services,
             Action<SwitcherProviderOptions> options)
         {
-            var optionsValues = new SwitcherProviderOptions();
-            options(optionsValues);
             services.AddTransient<TimedSwitcherProvider>();
+            services.AddTransient<SwitchableFactory>();
             services.AddTransient<MyLightWiringFactory>();
             services.AddTransient<MyLight>();
             services.AddTransient<MyTimerLightWiring>();
             services.AddTransient<Switcher>(
                 (sp) =>
                 {
+                    var optionsValues = new SwitcherProviderOptions();
+                    options(optionsValues);
                     return ActivatorUtilities.CreateInstance<Switcher>(sp, optionsValues);
                 }
             );

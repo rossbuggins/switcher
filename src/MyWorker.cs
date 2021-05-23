@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System.Linq;
+using System.Drawing;
 
 namespace switcher
 {
@@ -12,11 +13,15 @@ namespace switcher
     {
         private readonly Switchers _switchers;
         private readonly MyLightWiringFactory _factory;
-
+        private readonly SwitchableFactory _switchableFactory;
         private ILogger<MyWorker> _logger;
-        public MyWorker(MyLightWiringFactory factory, ILogger<MyWorker> logger)
+        public MyWorker(
+            MyLightWiringFactory factory,
+            SwitchableFactory switchableFactory,
+             ILogger<MyWorker> logger)
         {
             _switchers = new Switchers();
+            _switchableFactory = switchableFactory;
             _factory = factory;
             _logger = logger;
         }
@@ -30,21 +35,41 @@ namespace switcher
         private void SetupRequiredLights()
         {
             var x = _factory.Create<MyTimerLightWiring>();
-            x.Timer.AddOnTime(new TimeSpanRange(TimeSpan.Zero, new TimeSpan(1,59,59)));
+            x.Timer.AddOnTime(new TimeSpanRange(TimeSpan.Zero, new TimeSpan(1, 59, 59)));
             _switchers.Add(x.Switcher);
 
-            var whatItShouldBe = x.Timer.ShouldBeOnProvider ;
-            
+            x.Switcher.CorrelationId = "Single switch";
+
+            var multi = _factory.Create<MultiSwitch>();
+            multi.Switcher.CorrelationId = "Multi switch switcher";
+            var light1 = _switchableFactory.Create<MyLight>();
+            var light2 = _switchableFactory.Create<MyLight>();
+            light1.Color = Color.Red;
+            light2.Color = Color.Blue;
+            multi.Lights.Add(light1);
+            multi.Lights.Add(light2);
+            _switchers.Add(multi.Switcher);
+
+            multi.Switcher.SwitchingProvider.ShouldBeOnProvider = () =>
+            {
+                return true;
+            };// x.Timer.ShouldBeOn;
+
+
+            multi.Enable();
+
+            var whatItShouldBe = x.Timer.ShouldBeOnProvider;
+
             //This is showing the customisability of the system, its overriding 
             //default behaviour in a functional way.
             x.Timer.ShouldBeOnProvider = (p, o) =>
             {
                 var onRulesCount = o.Count();
-                var shouldBeRule = whatItShouldBe(p,o);
+                var shouldBeRule = whatItShouldBe(p, o);
                 var n = p.UtcNow().TimeOfDay;
-                var state = n.Seconds % 2 ==0;
+                var state = n.Seconds % 2 == 0;
                 _logger.LogInformation("There are {ruleCount} rules with a result of {plannedResult} but I'm ignoring them and setting the switch to what I want which is {state}.", onRulesCount, shouldBeRule, state);
-               return state;
+                return state;
             };
 
             x.Enable();

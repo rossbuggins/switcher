@@ -11,11 +11,18 @@ namespace switcher
         public Action SwitchOnProvider {get;set;}
         public Action SwitchOffProvider {get;set;}
 
-        public SwitcherProviderOptions()
+        public SwitcherProviderOptions() 
+            : this (DefaultShouldBeOnProvider, DefaultSwitchOnProvider, DefaultSwitchOffProvider)
         {
-            SwitchOnProvider = DefaultSwitchOnProvider;
-            SwitchOffProvider = DefaultSwitchOffProvider;
-            ShouldBeOnProvider = DefaultShouldBeOnProvider;
+
+        }
+
+        public SwitcherProviderOptions(Func< bool> shouldBeOnProvider, Action switchOnProvider, Action switchOffProvider)
+        {
+            ShouldBeOnProvider = shouldBeOnProvider;
+            SwitchOnProvider = switchOnProvider;
+            SwitchOffProvider = switchOffProvider;
+
         }
     }
 }
